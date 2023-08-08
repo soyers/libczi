@@ -656,6 +656,10 @@ namespace libCZI
         /// is usually not necessary to explicitly call `Close`. Also, take care that the ownership of
         /// the class must be defined when calling `Close`.
         virtual void Close() = 0;
+
+        /// Indicates whether the sub-blocks are physically ordered by their correspoding scene indices.
+        /// \return True if sub-blocks are ordered. Else False.
+        virtual bool SceneIndicesOrderedPhysically() = 0;
     public:
         /// Creates a single channel tile accessor.
         /// \return The new single channel tile accessor.

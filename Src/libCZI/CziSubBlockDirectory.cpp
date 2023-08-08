@@ -33,6 +33,7 @@ CSbBlkStatisticsUpdater::CSbBlkStatisticsUpdater() :pyramidStatisticsDirty(false
 {
     this->statistics.Invalidate();
     this->statistics.subBlockCount = 0;
+    this->sceneIndicesPhysicalOrder.clear();
 }
 
 void CSbBlkStatisticsUpdater::Clear()
@@ -40,6 +41,12 @@ void CSbBlkStatisticsUpdater::Clear()
     this->statistics.Invalidate();
     this->statistics.subBlockCount = 0;
     this->pyramidStatisticsDirty = false;
+    this->sceneIndicesPhysicalOrder.clear();
+}
+
+bool CSbBlkStatisticsUpdater::SceneIndicesOrderedPhysically()
+{
+    return this->sceneIndicesPhysicalOrder.empty() || is_sorted(this->sceneIndicesPhysicalOrder.begin(), this->sceneIndicesPhysicalOrder.end());
 }
 
 void CSbBlkStatisticsUpdater::UpdateStatistics(const CCziSubBlockDirectoryBase::SubBlkEntry& entry)
@@ -127,8 +134,14 @@ void CSbBlkStatisticsUpdater::UpdateStatistics(const CCziSubBlockDirectoryBase::
 
             this->statistics.sceneBoundingBoxes.insert(std::pair<int, BoundingBoxes>(sceneIndex, boundingBoxes));
         }
-    }
 
+        // Store physical order of scenes in sub blocks
+        if (std::find(this->sceneIndicesPhysicalOrder.begin(), this->sceneIndicesPhysicalOrder.end(), sceneIndex) == this->sceneIndicesPhysicalOrder.end())
+        {
+            this->sceneIndicesPhysicalOrder.push_back(sceneIndex);
+        }
+    }
+    
     this->pyramidStatisticsDirty = true;
 
     // now deal with the pyramid-layer info
@@ -391,6 +404,11 @@ void CCziSubBlockDirectory::AddingFinished()
 const libCZI::SubBlockStatistics& CCziSubBlockDirectory::GetStatistics() const
 {
     return this->sblkStatistics.GetStatistics();
+}
+
+bool CCziSubBlockDirectory::SceneIndicesOrderedPhysically()
+{
+    return this->sblkStatistics.SceneIndicesOrderedPhysically();
 }
 
 const libCZI::PyramidStatistics& CCziSubBlockDirectory::GetPyramidStatistics() const

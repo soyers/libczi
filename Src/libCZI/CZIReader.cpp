@@ -44,6 +44,11 @@ CCZIReader::~CCZIReader()
     this->SetOperationalState(true);
 }
 
+bool CCZIReader::SceneIndicesOrderedPhysically()
+{
+    return this->subBlkDir.SceneIndicesOrderedPhysically();
+}
+
 /*virtual*/FileHeaderInfo CCZIReader::GetFileHeaderInfo()
 {
     this->ThrowIfNotOperational();

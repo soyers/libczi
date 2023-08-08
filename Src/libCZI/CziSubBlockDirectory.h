@@ -58,6 +58,7 @@ private:
     libCZI::SubBlockStatistics statistics;
     libCZI::PyramidStatistics pyramidStatistics;
     bool pyramidStatisticsDirty;
+    std::vector<int> sceneIndicesPhysicalOrder = std::vector<int>();
 public:
     CSbBlkStatisticsUpdater();
     void UpdateStatistics(const CCziSubBlockDirectoryBase::SubBlkEntry& entry);
@@ -65,6 +66,7 @@ public:
 
     const libCZI::SubBlockStatistics& GetStatistics() const;
     const libCZI::PyramidStatistics& GetPyramidStatistics();
+    bool SceneIndicesOrderedPhysically();
 
     void Clear();
 private:
@@ -94,6 +96,7 @@ public:
 
     void AddSubBlock(const SubBlkEntry& entry);
     void AddingFinished();
+    bool SceneIndicesOrderedPhysically();
 
     void EnumSubBlocks(const std::function<bool(int index, const SubBlkEntry&)>& func);
     bool TryGetSubBlock(int index, SubBlkEntry& entry) const;
