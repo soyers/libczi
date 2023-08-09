@@ -31,7 +31,7 @@ public:
     bool TryGetSubBlockInfo(int index, libCZI::SubBlockInfo* info) const override;
     libCZI::SubBlockStatistics GetStatistics() override;
     libCZI::PyramidStatistics GetPyramidStatistics() override;
-    bool CCZIReader::SceneIndicesOrderedPhysically();
+    bool SceneIndicesOrderedPhysically();
 
     // interface ISubBlockRepositoryEx
     void EnumerateSubBlocksEx(const std::function<bool(int index, const libCZI::DirectorySubBlockInfo& info)>& funcEnum) override;
